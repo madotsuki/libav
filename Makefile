@@ -141,6 +141,9 @@ version.h .version:
 # force version.sh to run whenever version might have changed
 -include .version
 
+.hgignore:	.gitignore
+	{ echo syntax: glob ; cat .gitignore ; } > .hgignore
+
 ifdef PROGS
 install: install-progs install-data
 endif
