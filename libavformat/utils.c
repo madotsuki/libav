@@ -2032,7 +2032,6 @@ static void estimate_timings(AVFormatContext *ic, int64_t old_offset)
            the components */
         fill_all_stream_timings(ic);
     } else {
-        av_log(ic, AV_LOG_WARNING, "Estimating duration from bitrate, this may be inaccurate\n");
         /* less precise: use bitrate info */
         estimate_timings_from_bit_rate(ic);
     }
@@ -2351,7 +2350,6 @@ int avformat_find_stream_info(AVFormatContext *ic, AVDictionary **options)
         st = ic->streams[pkt->stream_index];
         if (st->codec_info_nb_frames>1) {
             if (st->time_base.den > 0 && av_rescale_q(st->info->codec_info_duration, st->time_base, AV_TIME_BASE_Q) >= ic->max_analyze_duration) {
-                av_log(ic, AV_LOG_WARNING, "max_analyze_duration reached\n");
                 break;
             }
             st->info->codec_info_duration += pkt->duration;
