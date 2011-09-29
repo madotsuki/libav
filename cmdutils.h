@@ -34,11 +34,6 @@
  */
 extern const char program_name[];
 
-/**
- * program birth year, defined by the program for show_banner()
- */
-extern const int program_birth_year;
-
 extern AVCodecContext *avcodec_opts[AVMEDIA_TYPE_NB];
 extern AVFormatContext *avformat_opts;
 extern struct SwsContext *sws_opts;
@@ -225,13 +220,6 @@ AVDictionary **setup_find_stream_info_opts(AVFormatContext *s, AVDictionary *cod
  * @see av_strerror()
  */
 void print_error(const char *filename, int err);
-
-/**
- * Print the program banner to stderr. The banner contents depend on the
- * current version of the repository and of the libav* libraries used by
- * the program.
- */
-void show_banner(void);
 
 /**
  * Print the version of the program to stdout. The version message

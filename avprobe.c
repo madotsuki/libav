@@ -30,7 +30,6 @@
 #include "cmdutils.h"
 
 const char program_name[] = "avprobe";
-const int program_birth_year = 2007;
 
 static int do_show_format  = 0;
 static int do_show_packets = 0;
@@ -388,7 +387,6 @@ int main(int argc, char **argv)
     avdevice_register_all();
 #endif
 
-    show_banner();
     parse_options(NULL, argc, argv, options, opt_input_file);
 
     if (!input_filename) {

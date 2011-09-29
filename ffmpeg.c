@@ -75,7 +75,6 @@
 #include "libavutil/avassert.h"
 
 const char program_name[] = "ffmpeg";
-const int program_birth_year = 2000;
 
 /* select an input stream for an output stream */
 typedef struct StreamMap {
@@ -4295,13 +4294,6 @@ int main(int argc, char **argv)
 
     init_opts();
 
-    show_banner();
-
-    av_log(NULL, AV_LOG_WARNING, "This program is not developed anymore and is only "
-                                 "provided for compatibility. Use avconv instead "
-                                 "(see Changelog for the list of incompatible changes).\n");
-
-    /* parse options */
     parse_options(NULL, argc, argv, options, opt_output_file);
 
     if(nb_output_files <= 0 && nb_input_files == 0) {

@@ -56,7 +56,6 @@
 #include <assert.h>
 
 const char program_name[] = "avplay";
-const int program_birth_year = 2003;
 
 #define MAX_QUEUE_SIZE (15 * 1024 * 1024)
 #define MIN_AUDIOQ_SIZE (20 * 16 * 1024)
@@ -3015,8 +3014,6 @@ int main(int argc, char **argv)
     av_register_all();
 
     init_opts();
-
-    show_banner();
 
     parse_options(NULL, argc, argv, options, opt_input_file);
 

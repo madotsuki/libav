@@ -60,7 +60,6 @@
 #include "cmdutils.h"
 
 const char program_name[] = "avserver";
-const int program_birth_year = 2000;
 
 static const OptionDef options[];
 
@@ -4662,8 +4661,6 @@ int main(int argc, char **argv)
 
     parse_loglevel(argc, argv, options);
     av_register_all();
-
-    show_banner();
 
     my_program_name = argv[0];
     my_program_dir = getcwd(0, 0);

@@ -75,7 +75,6 @@
 #include "libavutil/avassert.h"
 
 const char program_name[] = "avconv";
-const int program_birth_year = 2000;
 
 /* select an input stream for an output stream */
 typedef struct StreamMap {
@@ -3995,9 +3994,6 @@ int main(int argc, char **argv)
 
     avio_set_interrupt_cb(decode_interrupt_cb);
 
-    show_banner();
-
-    /* parse options */
     parse_options(&o, argc, argv, options, opt_output_file);
 
     if(nb_output_files <= 0 && nb_input_files == 0) {
