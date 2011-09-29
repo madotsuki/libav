@@ -216,8 +216,6 @@ typedef struct VideoState {
     int refresh;
 } VideoState;
 
-static void show_help(void);
-
 /* options specified by the user */
 static AVInputFormat *file_iformat;
 static const char *input_filename;
@@ -2987,51 +2985,6 @@ static const OptionDef options[] = {
     { NULL, },
 };
 
-static void show_usage(void)
-{
-    printf("Simple media player\n");
-    printf("usage: %s [options] input_file\n", program_name);
-    printf("\n");
-}
-
-static void show_help(void)
-{
-    const AVClass *class;
-    av_log_set_callback(log_callback_help);
-    show_usage();
-    show_help_options(options, "Main options:\n",
-                      OPT_EXPERT, 0);
-    show_help_options(options, "\nAdvanced options:\n",
-                      OPT_EXPERT, OPT_EXPERT);
-    printf("\n");
-    class = avcodec_get_class();
-    av_opt_show2(&class, NULL,
-                 AV_OPT_FLAG_DECODING_PARAM, 0);
-    printf("\n");
-    class = avformat_get_class();
-    av_opt_show2(&class, NULL,
-                 AV_OPT_FLAG_DECODING_PARAM, 0);
-#if !CONFIG_AVFILTER
-    printf("\n");
-    class = sws_get_class();
-    av_opt_show2(&class, NULL,
-                 AV_OPT_FLAG_ENCODING_PARAM, 0);
-#endif
-    printf("\nWhile playing:\n"
-           "q, ESC              quit\n"
-           "f                   toggle full screen\n"
-           "p, SPC              pause\n"
-           "a                   cycle audio channel\n"
-           "v                   cycle video channel\n"
-           "t                   cycle subtitle channel\n"
-           "w                   show audio waves\n"
-           "s                   activate frame-step mode\n"
-           "left/right          seek backward/forward 10 seconds\n"
-           "down/up             seek backward/forward 1 minute\n"
-           "mouse click         seek to percentage in file corresponding to fraction of width\n"
-           );
-}
-
 static void opt_input_file(void *optctx, const char *filename)
 {
     if (input_filename) {
@@ -3044,7 +2997,6 @@ static void opt_input_file(void *optctx, const char *filename)
     input_filename = filename;
 }
 
-/* Called from the main */
 int main(int argc, char **argv)
 {
     int flags;
@@ -3069,9 +3021,7 @@ int main(int argc, char **argv)
     parse_options(NULL, argc, argv, options, opt_input_file);
 
     if (!input_filename) {
-        show_usage();
-        fprintf(stderr, "An input file must be specified\n");
-        fprintf(stderr, "Use -h to get full help or, even better, run 'man %s'\n", program_name);
+        fprintf(stderr, "usage: %s [options] file\n", argv[0]);
         exit(1);
     }
 

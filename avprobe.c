@@ -329,13 +329,6 @@ static int probe_file(const char *filename)
     return 0;
 }
 
-static void show_usage(void)
-{
-    printf("Simple multimedia streams analyzer\n");
-    printf("usage: %s [OPTIONS] [INPUT_FILE]\n", program_name);
-    printf("\n");
-}
-
 static int opt_format(const char *opt, const char *arg)
 {
     iformat = av_find_input_format(arg);
@@ -356,17 +349,6 @@ static void opt_input_file(void *optctx, const char *arg)
     if (!strcmp(arg, "-"))
         arg = "pipe:";
     input_filename = arg;
-}
-
-static void show_help(void)
-{
-    const AVClass *class = avformat_get_class();
-    av_log_set_callback(log_callback_help);
-    show_usage();
-    show_help_options(options, "Main options:\n", 0, 0);
-    printf("\n");
-    av_opt_show2(&class, NULL,
-                 AV_OPT_FLAG_DECODING_PARAM, 0);
 }
 
 static void opt_pretty(void)
@@ -410,9 +392,7 @@ int main(int argc, char **argv)
     parse_options(NULL, argc, argv, options, opt_input_file);
 
     if (!input_filename) {
-        show_usage();
-        fprintf(stderr, "You have to specify one input file.\n");
-        fprintf(stderr, "Use -h to get full help or, even better, run 'man %s'.\n", program_name);
+        fprintf(stderr, "usage: %s [options] [file]\n", argv[0]);
         exit(1);
     }
 

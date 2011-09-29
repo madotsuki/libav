@@ -1,8 +1,3 @@
-    { "L", OPT_EXIT, {(void*)show_license}, "show license" },
-    { "h", OPT_EXIT, {(void*)show_help}, "show help" },
-    { "?", OPT_EXIT, {(void*)show_help}, "show help" },
-    { "help", OPT_EXIT, {(void*)show_help}, "show help" },
-    { "-help", OPT_EXIT, {(void*)show_help}, "show help" },
     { "version", OPT_EXIT, {(void*)show_version}, "show version" },
     { "formats"  , OPT_EXIT, {(void*)show_formats  }, "show available formats" },
     { "codecs"   , OPT_EXIT, {(void*)show_codecs   }, "show available codecs" },

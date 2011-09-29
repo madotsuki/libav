@@ -4648,14 +4648,6 @@ static void opt_debug(void)
     logfilename[0] = '-';
 }
 
-static void show_help(void)
-{
-    printf("usage: avserver [options]\n"
-           "Hyper fast multi format Audio/Video streaming server\n");
-    printf("\n");
-    show_help_options(options, "Main options:\n", 0, 0);
-}
-
 static const OptionDef options[] = {
 #include "cmdutils_common_opts.h"
     { "n", OPT_BOOL, {(void *)&no_launch }, "enable no-launch mode" },

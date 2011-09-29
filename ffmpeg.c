@@ -3916,83 +3916,6 @@ static void opt_intra_matrix(const char *arg)
     parse_matrix_coeffs(intra_matrix, arg);
 }
 
-static void show_usage(void)
-{
-    printf("Hyper fast Audio and Video encoder\n");
-    printf("usage: ffmpeg [options] [[infile options] -i infile]... {[outfile options] outfile}...\n");
-    printf("\n");
-}
-
-static void show_help(void)
-{
-    AVCodec *c;
-    AVOutputFormat *oformat = NULL;
-    AVInputFormat  *iformat = NULL;
-    const AVClass *class;
-
-    av_log_set_callback(log_callback_help);
-    show_usage();
-    show_help_options(options, "Main options:\n",
-                      OPT_EXPERT | OPT_AUDIO | OPT_VIDEO | OPT_SUBTITLE | OPT_GRAB, 0);
-    show_help_options(options, "\nAdvanced options:\n",
-                      OPT_EXPERT | OPT_AUDIO | OPT_VIDEO | OPT_SUBTITLE | OPT_GRAB,
-                      OPT_EXPERT);
-    show_help_options(options, "\nVideo options:\n",
-                      OPT_EXPERT | OPT_AUDIO | OPT_VIDEO | OPT_GRAB,
-                      OPT_VIDEO);
-    show_help_options(options, "\nAdvanced Video options:\n",
-                      OPT_EXPERT | OPT_AUDIO | OPT_VIDEO | OPT_GRAB,
-                      OPT_VIDEO | OPT_EXPERT);
-    show_help_options(options, "\nAudio options:\n",
-                      OPT_EXPERT | OPT_AUDIO | OPT_VIDEO | OPT_GRAB,
-                      OPT_AUDIO);
-    show_help_options(options, "\nAdvanced Audio options:\n",
-                      OPT_EXPERT | OPT_AUDIO | OPT_VIDEO | OPT_GRAB,
-                      OPT_AUDIO | OPT_EXPERT);
-    show_help_options(options, "\nSubtitle options:\n",
-                      OPT_SUBTITLE | OPT_GRAB,
-                      OPT_SUBTITLE);
-    show_help_options(options, "\nAudio/Video grab options:\n",
-                      OPT_GRAB,
-                      OPT_GRAB);
-    printf("\n");
-    class = avcodec_get_class();
-    av_opt_show2(&class, NULL, AV_OPT_FLAG_ENCODING_PARAM|AV_OPT_FLAG_DECODING_PARAM, 0);
-    printf("\n");
-
-    /* individual codec options */
-    c = NULL;
-    while ((c = av_codec_next(c))) {
-        if (c->priv_class) {
-            av_opt_show2(&c->priv_class, NULL, AV_OPT_FLAG_ENCODING_PARAM|AV_OPT_FLAG_DECODING_PARAM, 0);
-            printf("\n");
-        }
-    }
-
-    class = avformat_get_class();
-    av_opt_show2(&class, NULL, AV_OPT_FLAG_ENCODING_PARAM|AV_OPT_FLAG_DECODING_PARAM, 0);
-    printf("\n");
-
-    /* individual muxer options */
-    while ((oformat = av_oformat_next(oformat))) {
-        if (oformat->priv_class) {
-            av_opt_show2(&oformat->priv_class, NULL, AV_OPT_FLAG_ENCODING_PARAM, 0);
-            printf("\n");
-        }
-    }
-
-    /* individual demuxer options */
-    while ((iformat = av_iformat_next(iformat))) {
-        if (iformat->priv_class) {
-            av_opt_show2(&iformat->priv_class, NULL, AV_OPT_FLAG_DECODING_PARAM, 0);
-            printf("\n");
-        }
-    }
-
-    class = sws_get_class();
-    av_opt_show2(&class, NULL, AV_OPT_FLAG_ENCODING_PARAM|AV_OPT_FLAG_DECODING_PARAM, 0);
-}
-
 static int opt_target(const char *opt, const char *arg)
 {
     enum { PAL, NTSC, FILM, UNKNOWN } norm = UNKNOWN;
@@ -4382,8 +4305,7 @@ int main(int argc, char **argv)
     parse_options(NULL, argc, argv, options, opt_output_file);
 
     if(nb_output_files <= 0 && nb_input_files == 0) {
-        show_usage();
-        fprintf(stderr, "Use -h to get full help or, even better, run 'man ffmpeg'\n");
+        fprintf(stderr, "usage: %s [options] [[infile options] -i infile]... {[outfile options] outfile}...\n", argv[0]);
         exit_program(1);
     }
 
