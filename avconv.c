@@ -1830,14 +1830,14 @@ static int transcode_init(OutputFile *output_files,
     }
 
     /* output stream init */
-    for(i=0;i<nb_output_files;i++) {
-        os = output_files[i].ctx;
-        if (!os->nb_streams && !(os->oformat->flags & AVFMT_NOSTREAMS)) {
-            av_dump_format(os, i, os->filename, 1);
-            av_log(NULL, AV_LOG_ERROR, "Output file #%d does not contain any stream\n", i);
-            return AVERROR(EINVAL);
-        }
-    }
+//    for(i=0;i<nb_output_files;i++) {
+//        os = output_files[i].ctx;
+//        if (!os->nb_streams && !(os->oformat->flags & AVFMT_NOSTREAMS)) {
+//            av_dump_format(os, i, os->filename, 1);
+//            av_log(NULL, AV_LOG_ERROR, "Output file #%d does not contain any stream\n", i);
+//            return AVERROR(EINVAL);
+//        }
+//    }
 
     /* for each output stream, we compute the right encoding parameters */
     for (i = 0; i < nb_output_streams; i++) {
@@ -2149,31 +2149,31 @@ static int transcode_init(OutputFile *output_files,
  dump_format:
     /* dump the file output parameters - cannot be done before in case
        of stream copy */
-    for(i=0;i<nb_output_files;i++) {
-        av_dump_format(output_files[i].ctx, i, output_files[i].ctx->filename, 1);
-    }
+//    for(i=0;i<nb_output_files;i++) {
+//        av_dump_format(output_files[i].ctx, i, output_files[i].ctx->filename, 1);
+//    }
 
     /* dump the stream mapping */
-    av_log(NULL, AV_LOG_INFO, "Stream mapping:\n");
-    for (i = 0; i < nb_output_streams; i++) {
-        ost = &output_streams[i];
-        av_log(NULL, AV_LOG_INFO, "  Stream #%d.%d -> #%d.%d",
-               input_streams[ost->source_index].file_index,
-               input_streams[ost->source_index].st->index,
-               ost->file_index,
-               ost->index);
-        if (ost->sync_ist != &input_streams[ost->source_index])
-            av_log(NULL, AV_LOG_INFO, " [sync #%d.%d]",
-                   ost->sync_ist->file_index,
-                   ost->sync_ist->st->index);
-        if (ost->st->stream_copy)
-            av_log(NULL, AV_LOG_INFO, " (copy)");
-        else
-            av_log(NULL, AV_LOG_INFO, " (%s -> %s)", input_streams[ost->source_index].dec ?
-                   input_streams[ost->source_index].dec->name : "?",
-                   ost->enc ? ost->enc->name : "?");
-        av_log(NULL, AV_LOG_INFO, "\n");
-    }
+//    av_log(NULL, AV_LOG_INFO, "Stream mapping:\n");
+//    for (i = 0; i < nb_output_streams; i++) {
+//        ost = &output_streams[i];
+//        av_log(NULL, AV_LOG_INFO, "  Stream #%d.%d -> #%d.%d",
+//               input_streams[ost->source_index].file_index,
+//               input_streams[ost->source_index].st->index,
+//               ost->file_index,
+//               ost->index);
+//        if (ost->sync_ist != &input_streams[ost->source_index])
+//            av_log(NULL, AV_LOG_INFO, " [sync #%d.%d]",
+//                   ost->sync_ist->file_index,
+//                   ost->sync_ist->st->index);
+//        if (ost->st->stream_copy)
+//            av_log(NULL, AV_LOG_INFO, " (copy)");
+//        else
+//            av_log(NULL, AV_LOG_INFO, " (%s -> %s)", input_streams[ost->source_index].dec ?
+//                   input_streams[ost->source_index].dec->name : "?",
+//                   ost->enc ? ost->enc->name : "?");
+//        av_log(NULL, AV_LOG_INFO, "\n");
+//    }
 
     if (ret) {
         av_log(NULL, AV_LOG_ERROR, "%s\n", error);
@@ -2797,7 +2797,7 @@ static int opt_input_file(OptionsContext *o, const char *opt, const char *filena
     add_input_streams(o, ic);
 
     /* dump the file content */
-    av_dump_format(ic, nb_input_files, filename, 0);
+//    av_dump_format(ic, nb_input_files, filename, 0);
 
     input_files = grow_array(input_files, sizeof(*input_files), &nb_input_files, nb_input_files + 1);
     input_files[nb_input_files - 1].ctx        = ic;
