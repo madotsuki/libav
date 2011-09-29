@@ -466,36 +466,6 @@ static int configure_video_filters(InputStream *ist, OutputStream *ost)
 }
 #endif /* CONFIG_AVFILTER */
 
-static void term_exit(void)
-{
-    av_log(NULL, AV_LOG_QUIET, "");
-}
-
-static volatile int received_sigterm = 0;
-static volatile int received_nb_signals = 0;
-
-static void
-sigterm_handler(int sig)
-{
-    received_sigterm = sig;
-    received_nb_signals++;
-    term_exit();
-}
-
-static void term_init(void)
-{
-    signal(SIGINT , sigterm_handler); /* Interrupt (ANSI).  */
-    signal(SIGTERM, sigterm_handler); /* Termination (ANSI).  */
-#ifdef SIGXCPU
-    signal(SIGXCPU, sigterm_handler);
-#endif
-}
-
-static int decode_interrupt_cb(void)
-{
-    return received_nb_signals > 1;
-}
-
 void exit_program(int ret)
 {
     int i;
@@ -532,12 +502,6 @@ void exit_program(int ret)
 #if CONFIG_AVFILTER
     avfilter_uninit();
 #endif
-
-    if (received_sigterm) {
-        av_log(NULL, AV_LOG_INFO, "Received signal %d: terminating.\n",
-               (int) received_sigterm);
-        exit (255);
-    }
 
     exit(ret); /* not all OS-es handle main() return value */
 }
@@ -2341,11 +2305,9 @@ static int transcode(OutputFile *output_files,
     if (ret < 0)
         goto fail;
 
-    term_init();
-
     timer_start = av_gettime();
 
-    for(; received_sigterm == 0;) {
+    for(;;) {
         int file_index, ist_index;
         AVPacket pkt;
         int64_t ipts_min;
@@ -2481,8 +2443,6 @@ static int transcode(OutputFile *output_files,
         }
     }
     flush_encoders(output_streams, nb_output_streams);
-
-    term_exit();
 
     /* write the trailer if needed and close file */
     for(i=0;i<nb_output_files;i++) {
@@ -3969,8 +3929,6 @@ int main(int argc, char **argv)
     avfilter_register_all();
 #endif
     av_register_all();
-
-    avio_set_interrupt_cb(decode_interrupt_cb);
 
     parse_options(&o, argc, argv, options, opt_output_file);
 
