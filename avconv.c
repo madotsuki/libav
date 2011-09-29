@@ -516,23 +516,6 @@ static void assert_avoptions(AVDictionary *m)
     }
 }
 
-static void assert_codec_experimental(AVCodecContext *c, int encoder)
-{
-    const char *codec_string = encoder ? "encoder" : "decoder";
-    AVCodec *codec;
-    if (c->codec->capabilities & CODEC_CAP_EXPERIMENTAL &&
-        c->strict_std_compliance > FF_COMPLIANCE_EXPERIMENTAL) {
-        av_log(NULL, AV_LOG_FATAL, "%s '%s' is experimental and might produce bad "
-                "results.\nAdd '-strict experimental' if you want to use it.\n",
-                codec_string, c->codec->name);
-        codec = encoder ? avcodec_find_encoder(c->codec->id) : avcodec_find_decoder(c->codec->id);
-        if (!(codec->capabilities & CODEC_CAP_EXPERIMENTAL))
-            av_log(NULL, AV_LOG_FATAL, "Or use the non experimental %s '%s'.\n",
-                   codec_string, codec->name);
-        exit_program(1);
-    }
-}
-
 static void choose_sample_fmt(AVStream *st, AVCodec *codec)
 {
     if(codec && codec->sample_fmts){
@@ -1891,7 +1874,6 @@ static int init_input_stream(int ist_index, OutputStream *output_streams, int nb
                     ist->file_index, ist->st->index);
             return AVERROR(EINVAL);
         }
-        assert_codec_experimental(ist->st->codec, 0);
         assert_avoptions(ist->opts);
     }
 
@@ -2195,7 +2177,6 @@ static int transcode_init(OutputFile *output_files,
                 ret = AVERROR(EINVAL);
                 goto dump_format;
             }
-            assert_codec_experimental(ost->st->codec, 1);
             assert_avoptions(ost->opts);
             if (ost->st->codec->bit_rate && ost->st->codec->bit_rate < 1000)
                 av_log(NULL, AV_LOG_WARNING, "The bitrate parameter is set too low."
