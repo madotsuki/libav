@@ -122,6 +122,7 @@ static int audio_volume = 256;
 
 static int exit_on_error = 0;
 static int using_stdin = 0;
+static int verbose = 0;
 static int64_t video_size = 0;
 static int64_t audio_size = 0;
 static int64_t extra_size = 0;
@@ -2510,7 +2511,7 @@ static int transcode(OutputFile *output_files,
 
 static int opt_verbose(const char *opt, const char *arg)
 {
-    av_log(NULL, AV_LOG_WARNING, "-%s is deprecated, use -loglevel\n", opt);
+	verbose++;
     return 0;
 }
 
@@ -3829,7 +3830,7 @@ static const OptionDef options[] = {
     { "hex", OPT_BOOL | OPT_EXPERT, {(void*)&do_hex_dump},
       "when dumping packets, also dump the payload" },
     { "re", OPT_BOOL | OPT_EXPERT | OPT_OFFSET, {.off = OFFSET(rate_emu)}, "read input at native frame rate", "" },
-    { "v", HAS_ARG, {(void*)opt_verbose}, "deprecated, use -loglevel instead", "number" },
+    { "v", 0, {(void*)opt_verbose}, "verbosity level", "" },
     { "target", HAS_ARG | OPT_FUNC2, {(void*)opt_target}, "specify target file type (\"vcd\", \"svcd\", \"dvd\", \"dv\", \"dv50\", \"pal-vcd\", \"ntsc-svcd\", ...)", "type" },
     { "vsync", HAS_ARG | OPT_INT | OPT_EXPERT, {(void*)&video_sync_method}, "video sync method", "" },
     { "async", HAS_ARG | OPT_INT | OPT_EXPERT, {(void*)&audio_sync_method}, "audio sync method", "" },
