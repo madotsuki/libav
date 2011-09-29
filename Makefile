@@ -52,7 +52,6 @@ COMPILE_S = $(call COMPILE,AS)
 
 %.c %.h: TAG = GEN
 
-PROGS-$(CONFIG_FFMPEG)   += ffmpeg
 PROGS-$(CONFIG_AVCONV)   += avconv
 PROGS-$(CONFIG_AVPLAY)   += avplay
 PROGS-$(CONFIG_AVPROBE)  += avprobe
