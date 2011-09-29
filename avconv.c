@@ -2341,7 +2341,6 @@ static int transcode(OutputFile *output_files,
     if (ret < 0)
         goto fail;
 
-    av_log(NULL, AV_LOG_INFO, "Press ctrl-c to stop encoding\n");
     term_init();
 
     timer_start = av_gettime();
