@@ -284,7 +284,7 @@ static int open_input_file(AVFormatContext **fmt_ctx_ptr, const char *filename)
         return err;
     }
 
-    av_dump_format(fmt_ctx, 0, filename, 0);
+//    av_dump_format(fmt_ctx, 0, filename, 0);
 
     /* bind a decoder to each input stream */
     for (i = 0; i < fmt_ctx->nb_streams; i++) {
@@ -306,23 +306,28 @@ static int open_input_file(AVFormatContext **fmt_ctx_ptr, const char *filename)
 
 static int probe_file(const char *filename)
 {
-    AVFormatContext *fmt_ctx;
+    AVFormatContext *c;
     int ret, i;
 
-    if ((ret = open_input_file(&fmt_ctx, filename)))
+    if ((ret = open_input_file(&c, filename)))
         return ret;
 
-    if (do_show_packets)
-        show_packets(fmt_ctx);
+//    if (do_show_packets)
+//        show_packets(c);
 
-    if (do_show_streams)
-        for (i = 0; i < fmt_ctx->nb_streams; i++)
-            show_stream(fmt_ctx, i);
+//    if (do_show_streams) {
+//        for (i = 0; i < c->nb_streams; i++)
+//            show_stream(c, i);
+//	}
 
-    if (do_show_format)
-        show_format(fmt_ctx);
+//    if (do_show_format)
+//        show_format(c);
 
-    av_close_input_file(fmt_ctx);
+	printf("codec	%s\n", c->iformat->name);
+	printf("length	%lld\n", c->duration / AV_TIME_BASE);
+	printf("bitrate	%d\n", c->bit_rate);
+
+    av_close_input_file(c);
     return 0;
 }
 
