@@ -59,8 +59,6 @@
 
 #include "cmdutils.h"
 
-const char program_name[] = "avserver";
-
 static const OptionDef options[];
 
 enum HTTPState {
@@ -1890,11 +1888,11 @@ static void compute_status(HTTPContext *c)
     avio_printf(pb, "Pragma: no-cache\r\n");
     avio_printf(pb, "\r\n");
 
-    avio_printf(pb, "<html><head><title>%s Status</title>\n", program_name);
+    avio_printf(pb, "<html><head><title>%s Status</title>\n", my_program_name);
     if (c->stream->feed_filename[0])
         avio_printf(pb, "<link rel=\"shortcut icon\" href=\"%s\">\n", c->stream->feed_filename);
     avio_printf(pb, "</head>\n<body>");
-    avio_printf(pb, "<h1>%s Status</h1>\n", program_name);
+    avio_printf(pb, "<h1>%s Status</h1>\n", my_program_name);
     /* format status */
     avio_printf(pb, "<h2>Available Streams</h2>\n");
     avio_printf(pb, "<table cellspacing=0 cellpadding=4>\n");

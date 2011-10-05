@@ -74,8 +74,6 @@
 
 #include "libavutil/avassert.h"
 
-const char program_name[] = "avconv";
-
 /* select an input stream for an output stream */
 typedef struct StreamMap {
     int disabled;           /** 1 is this mapping is disabled by a negative map */

@@ -29,8 +29,6 @@
 #include "libavdevice/avdevice.h"
 #include "cmdutils.h"
 
-const char program_name[] = "avprobe";
-
 static int do_show_format  = 0;
 static int do_show_packets = 0;
 static int do_show_streams = 0;

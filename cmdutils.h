@@ -29,11 +29,6 @@
 #include "libavformat/avformat.h"
 #include "libswscale/swscale.h"
 
-/**
- * program name, defined by the program for show_version().
- */
-extern const char program_name[];
-
 extern AVCodecContext *avcodec_opts[AVMEDIA_TYPE_NB];
 extern AVFormatContext *avformat_opts;
 extern struct SwsContext *sws_opts;

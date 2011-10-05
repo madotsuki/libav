@@ -55,8 +55,6 @@
 #include <unistd.h>
 #include <assert.h>
 
-const char program_name[] = "avplay";
-
 #define MAX_QUEUE_SIZE (15 * 1024 * 1024)
 #define MIN_AUDIOQ_SIZE (20 * 16 * 1024)
 #define MIN_FRAMES 5
