@@ -343,8 +343,6 @@ static void opt_input_file(void *optctx, const char *arg)
                 arg, input_filename);
         exit(1);
     }
-    if (!strcmp(arg, "-"))
-        arg = "pipe:";
     input_filename = arg;
 }
 
@@ -392,7 +390,7 @@ int main(int argc, char **argv)
         exit(1);
     }
 
-    ret = probe_file(input_filename);
+    ret = probe_file(input_filename);	// FIXME - do proper error handling
 
     return ret;
 }
