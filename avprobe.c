@@ -390,10 +390,8 @@ int main(int argc, char **argv)
 
     parse_options(NULL, argc, argv, options, opt_input_file);
 
-    if (!input_filename) {
-        fprintf(stderr, "usage: %s [options] [file]\n", argv[0]);
-        exit(1);
-    }
+    if(!input_filename)
+		input_filename = "/dev/stdin";
 
     ret = probe_file(input_filename);	// FIXME - do proper error handling
 
