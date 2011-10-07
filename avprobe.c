@@ -304,31 +304,37 @@ static int open_input_file(AVFormatContext **fmt_ctx_ptr, const char *filename)
     return 0;
 }
 
-static int probe_file(const char *filename)
+static int
+probe_file(const char *filename)
 {
-    AVFormatContext *c;
-    int ret, i;
+	AVFormatContext *c;
+	int ret, i;
+	AVDictionary *d;
+	AVDictionaryEntry *tag;
 
-    if ((ret = open_input_file(&c, filename)))
-        return ret;
+	if(ret = open_input_file(&c, filename))
+		return ret;
 
-//    if (do_show_packets)
-//        show_packets(c);
-
-//    if (do_show_streams) {
-//        for (i = 0; i < c->nb_streams; i++)
-//            show_stream(c, i);
-//	}
-
-//    if (do_show_format)
-//        show_format(c);
+	if(c->metadata != NULL)
+		d = c->metadata;
+	else
+		d = c->streams[0]->metadata;
 
 	printf("codec	%s\n", c->iformat->name);
 	printf("length	%lld\n", c->duration / AV_TIME_BASE);
 	printf("bitrate	%d\n", c->bit_rate);
+	tag = av_dict_get(d, "title", NULL, 0);
+	printf("title	%s\n", tag != NULL ? tag->value : "");
+	tag = av_dict_get(d, "album", NULL, 0);
+	printf("album	%s\n", tag != NULL ? tag->value : "");
+	tag = av_dict_get(d, "artist", NULL, 0);
+	printf("artist	%s\n", tag != NULL ? tag->value : "");
 
-    av_close_input_file(c);
-    return 0;
+//	for(tag=NULL; (tag = av_dict_get(d, "", tag, AV_DICT_IGNORE_SUFFIX)); )
+//		printf("%s	%s\n", tag->key, tag->value);
+
+	av_close_input_file(c);
+	return 0;
 }
 
 static int opt_format(const char *opt, const char *arg)
@@ -388,6 +394,7 @@ int main(int argc, char **argv)
     avdevice_register_all();
 #endif
 
+	opt_loglevel(NULL, "quiet");
     parse_options(NULL, argc, argv, options, opt_input_file);
 
     if(!input_filename)
