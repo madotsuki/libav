@@ -325,10 +325,10 @@ probe_file(const char *filename)
 	printf("bitrate	%d\n", c->bit_rate);
 	tag = av_dict_get(d, "title", NULL, 0);
 	printf("title	%s\n", tag != NULL ? tag->value : "");
-	tag = av_dict_get(d, "album", NULL, 0);
-	printf("album	%s\n", tag != NULL ? tag->value : "");
 	tag = av_dict_get(d, "artist", NULL, 0);
 	printf("artist	%s\n", tag != NULL ? tag->value : "");
+	tag = av_dict_get(d, "album", NULL, 0);
+	printf("album	%s\n", tag != NULL ? tag->value : "");
 
 //	for(tag=NULL; (tag = av_dict_get(d, "", tag, AV_DICT_IGNORE_SUFFIX)); )
 //		printf("%s	%s\n", tag->key, tag->value);
